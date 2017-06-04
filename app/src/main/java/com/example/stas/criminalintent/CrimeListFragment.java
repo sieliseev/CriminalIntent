@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -41,14 +44,54 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecyclerView.setAdapter(mAdapter);
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder {
+    private class SimpleCrimeHolder extends CrimeHolder {
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
+        public SimpleCrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    // add the second viewHolder with the button police
+    private class SeriousCrimeHolder extends CrimeHolder {
+
+        private Button mPoliceButton;
+
+        public SeriousCrimeHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_crime_police, parent, false));
+
+            mPoliceButton = (Button) itemView.findViewById(R.id.button_police);
+        }
+
+        @Override
+        protected void bind(Crime crime) {
+            super.bind(crime);
+
+            mPoliceButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "You called the police!", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+
+        private final int VIEW_TYPE_SIMPLE = 1;
+        private final int VIEW_TYPE_SERIOUS = 2;
 
         private List<Crime> mCrimes;
 
@@ -57,15 +100,32 @@ public class CrimeListFragment extends Fragment {
         }
 
         @Override
+        public int getItemViewType(int position) {
+            if (mCrimes.get(position).isRequiresPolice())
+                return VIEW_TYPE_SERIOUS;
+            else
+                return VIEW_TYPE_SIMPLE;
+        }
+
+        @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
-            return new CrimeHolder(layoutInflater, parent);
+            switch (viewType) {
+                case VIEW_TYPE_SIMPLE:
+                    return new SimpleCrimeHolder(layoutInflater, parent);
+                case VIEW_TYPE_SERIOUS:
+                    return new SeriousCrimeHolder(layoutInflater, parent);
+                default:
+                    return new SimpleCrimeHolder(layoutInflater, parent);
+            }
+
         }
 
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
-
+            Crime crime = mCrimes.get(position);
+            holder.bind(crime);
         }
 
         @Override
