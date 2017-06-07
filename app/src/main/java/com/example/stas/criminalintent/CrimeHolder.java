@@ -46,4 +46,6 @@ public abstract class CrimeHolder extends RecyclerView.ViewHolder implements Vie
         Intent intent = new Intent(context, CrimeActivity.class);
         context.startActivity(intent);
     }
+
+    /// тест
 }
