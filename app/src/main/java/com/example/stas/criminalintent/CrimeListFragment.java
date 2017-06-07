@@ -49,12 +49,12 @@ public class CrimeListFragment extends Fragment {
         public SimpleCrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
         }
-
+/*
         @Override
         public void onClick(View v) {
             Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
                     .show();
-        }
+        }*/
     }
 
     // add the second viewHolder with the button police
@@ -80,12 +80,12 @@ public class CrimeListFragment extends Fragment {
                 }
             });
         }
-
+/*
         @Override
         public void onClick(View v) {
             Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
                     .show();
-        }
+        }*/
     }
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
