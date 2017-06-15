@@ -56,8 +56,8 @@ public class CrimeListFragment extends Fragment {
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
             //Log.d("Position", "position update = "+ mLastClickHolderPosition);
-           // mAdapter.notifyDataSetChanged();
-            mAdapter.notifyItemChanged(mLastClickHolderPosition);
+           mAdapter.notifyDataSetChanged();
+            //mAdapter.notifyItemChanged(mLastClickHolderPosition);
         }
     }
 
@@ -94,7 +94,7 @@ public class CrimeListFragment extends Fragment {
         public void onClick(View v) {
             mLastClickHolderPosition = getAdapterPosition();
            // Log.d("Position", "position = "+ mLastClickHolderPosition);
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getID());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getID());
             startActivity(intent);
         }
     }
